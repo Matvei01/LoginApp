@@ -14,14 +14,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTF: UITextField!
     
     // MARK: - Private Properties
-    private var userName = "user"
-    private var password = "ios"
-    
-    // MARK: - Life Cycles Methods
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(true)
-    }
+    private let userName = "user"
+    private let password = "ios"
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -30,12 +24,13 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - IBActions
-    @IBAction func logInTapped(_ sender: UIButton) {
+    
+    @IBAction func loginTapped() {
         if loginTF.text != userName || passwordTF.text != password {
-            showAlert(
-                title: "Invalid login or password",
-                message: "Please, enter correct login and password"
-            )
+                showAlert(
+                    title: "Invalid login or password",
+                    message: "Please, enter correct login and password"
+                )
         }
     }
     
@@ -64,3 +59,23 @@ extension LoginViewController {
         present(alert, animated: true)
     }
 }
+
+// MARK: - UITextFieldDelegate
+extension LoginViewController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == loginTF {
+            passwordTF.becomeFirstResponder()
+        } else {
+            loginTapped()
+            performSegue(withIdentifier: "showWelcomeVC", sender: nil)
+        }
+        return true
+    }
+}
+
+
