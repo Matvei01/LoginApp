@@ -14,19 +14,26 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTF: UITextField!
     
     // MARK: - Private Properties
-    private let userName = "user"
-    private let password = "ios"
+    private let user = User.getUser()
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let welcomeVC = segue.destination as? WelcomeViewController else { return }
-        welcomeVC.login = loginTF.text
+        guard let tabBarController = segue.destination as? UITabBarController else { return }
+        guard let viewControllers = tabBarController.viewControllers else { return }
+        
+        for viewController in viewControllers {
+            if let welcomeVC = viewController as? WelcomeViewController {
+                welcomeVC.user = user
+            } else if let navigationVC = viewController as? UINavigationController {
+                let aboutMeVC = navigationVC.topViewController as! AboutMeViewController
+                aboutMeVC.user = user
+            }
+        }
     }
     
     // MARK: - IBActions
-    
     @IBAction func loginTapped() {
-        if loginTF.text != userName || passwordTF.text != password {
+        if loginTF.text != user.login || passwordTF.text != user.password {
                 showAlert(
                     title: "Invalid login or password",
                     message: "Please, enter correct login and password"
