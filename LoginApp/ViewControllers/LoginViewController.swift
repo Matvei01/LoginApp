@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
             if let welcomeVC = viewController as? WelcomeViewController {
                 welcomeVC.user = user
             } else if let navigationVC = viewController as? UINavigationController {
-                let aboutMeVC = navigationVC.topViewController as! AboutMeViewController
+                guard let aboutMeVC = navigationVC.topViewController as? AboutMeViewController else { return }
                 aboutMeVC.user = user
             }
         }
@@ -41,12 +41,10 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @IBAction func alertLoginTapped() {
-        showAlert(title: "Oops!", message: "Your login is user")
-    }
-    
-    @IBAction func alertPasswordTapped() {
-        showAlert(title: "Oops!", message: "Your password is ios")
+    @IBAction func forgotRegisterData(_ sender: UIButton) {
+        sender.tag == 0
+        ? showAlert(title: "Oops!", message: "Your login is \(user.login) 😉")
+        : showAlert(title: "Oops!", message: "Your password is \(user.password) 😉")
     }
     
     @IBAction func unwind(for segue: UIStoryboardSegue) {
