@@ -34,10 +34,10 @@ class LoginViewController: UIViewController {
     // MARK: - IBActions
     @IBAction func loginTapped() {
         if loginTF.text != user.login || passwordTF.text != user.password {
-                showAlert(
-                    title: "Invalid login or password",
-                    message: "Please, enter correct login and password"
-                )
+            showAlert(
+                title: "Invalid login or password",
+                message: "Please, enter correct login and password"
+            )
         }
     }
     
@@ -60,6 +60,7 @@ extension LoginViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
             self.passwordTF.text = ""
         }
+        
         alert.addAction(okAction)
         present(alert, animated: true)
     }
@@ -79,6 +80,7 @@ extension LoginViewController: UITextFieldDelegate {
             loginTapped()
             performSegue(withIdentifier: "showWelcomeVC", sender: nil)
         }
+        
         return true
     }
 }

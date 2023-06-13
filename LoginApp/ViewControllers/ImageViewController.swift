@@ -8,7 +8,7 @@
 import UIKit
 
 class ImageViewController: UIViewController {
-    @IBOutlet var imageView: UIImageView! 
+    @IBOutlet var imageView: UIImageView!
     
     var user: User!
     
