@@ -5,8 +5,6 @@
 //  Created by Matvei Khlestov on 20.05.2022.
 //
 
-import Foundation
-
 struct User {
     let login: String
     let password: String
