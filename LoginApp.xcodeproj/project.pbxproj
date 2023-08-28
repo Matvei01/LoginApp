@@ -87,8 +87,8 @@
 		A0577EF92837F8B700624D30 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				A0007C52282D54D70023C350 /* LoginViewController.swift */,
 				A04B4F6A2A78EF6200026CFD /* TabBarController.swift */,
+				A0007C52282D54D70023C350 /* LoginViewController.swift */,
 				A0007C54282D6F740023C350 /* WelcomeViewController.swift */,
 				A0B59FA5283810ED00E1B1FA /* AboutMeViewController.swift */,
 				A0B59FA72838299500E1B1FA /* ImageViewController.swift */,

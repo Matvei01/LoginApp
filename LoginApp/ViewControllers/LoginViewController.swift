@@ -14,110 +14,62 @@ class LoginViewController: UIViewController {
     
     // MARK: -  UI Elements
     private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 20
-        
-        return stackView
+        createStackView(
+            axis: .vertical,
+            distribution: .fill,
+            spacing: 20
+        )
     }()
     
     private lazy var authorizationStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.spacing = 20
-        
-        return stackView
+        createStackView(
+            axis: .vertical,
+            distribution: .fill,
+            spacing: 20
+        )
     }()
     
     private lazy var errorStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 0
-        
-        return stackView
+        createStackView(
+            axis: .horizontal,
+            distribution: .equalSpacing,
+            spacing: 0
+        )
     }()
     
     private lazy var userNameTF: UITextField = {
-        let textField = UITextField()
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.placeholder = "User Name"
-        textField.borderStyle = .roundedRect
-        
-        return textField
+        createTextField(placeholder: "User Name")
     }()
     
     private lazy var passwordTF: UITextField = {
-        let textField = UITextField()
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.placeholder = "Password"
-        textField.borderStyle = .roundedRect
-        
-        return textField
+        createTextField(placeholder: "Password")
     }()
     
     private lazy var loginButton: UIButton = {
-        var attributes = AttributeContainer()
-        attributes.font = .systemFont(ofSize: 20)
-        
-        var buttonConfiguration = UIButton.Configuration.plain()
-        buttonConfiguration.baseBackgroundColor = .systemPink
-        buttonConfiguration.attributedTitle = AttributedString(
-            "Log In", attributes: attributes
-        )
-        
-        let button = UIButton(
-            configuration: buttonConfiguration,
-            primaryAction: UIAction { [unowned self] _ in
+        createButton(
+            withTitle: "Log In",
+            andFont: .systemFont(ofSize: 20),
+            action: UIAction { [unowned self] _ in
                 logInButtonPressed()
             })
-        
-        return button
     }()
     
     private lazy var forgotUserNameButton: UIButton = {
-        var attributes = AttributeContainer()
-        attributes.font = .systemFont(ofSize: 13)
-        
-        var buttonConfiguration = UIButton.Configuration.plain()
-        buttonConfiguration.baseBackgroundColor = .systemBlue
-        buttonConfiguration.attributedTitle = AttributedString(
-            "Forgot User Name?", attributes: attributes
-        )
-        
-        let button = UIButton(
-            configuration: buttonConfiguration,
-            primaryAction: UIAction { [unowned self] _ in
+        createButton(
+            withTitle: "Forgot User Name?",
+            andFont: .systemFont(ofSize: 13),
+            action: UIAction { [unowned self] _ in
                 forgotUserNamePressed()
             })
-        
-        
-        return button
     }()
     
     private lazy var forgotPasswordButton: UIButton = {
-        var attributes = AttributeContainer()
-        attributes.font = .systemFont(ofSize: 13)
-        
-        var buttonConfiguration = UIButton.Configuration.plain()
-        buttonConfiguration.baseBackgroundColor = .systemBlue
-        buttonConfiguration.attributedTitle = AttributedString(
-            "Forgot Password?", attributes: attributes
-        )
-        
-        let button = UIButton(
-            configuration: buttonConfiguration,
-            primaryAction: UIAction { [unowned self] _ in
+        createButton(
+            withTitle: "Forgot Password?",
+            andFont: .systemFont(ofSize: 13),
+            action: UIAction { [unowned self] _ in
                 forgotPasswordPressed()
             })
-        
-        
-        return button
     }()
     
     // MARK: -  Life Cycle Methods
@@ -142,17 +94,17 @@ class LoginViewController: UIViewController {
         )
         
         setupSubviewsFor(
-            stackView: mainStackView,
+            mainStackView,
             subviews: authorizationStackView, loginButton, errorStackView
         )
         
         setupSubviewsFor(
-            stackView: authorizationStackView,
+            authorizationStackView,
             subviews: userNameTF, passwordTF
         )
         
         setupSubviewsFor(
-            stackView: errorStackView,
+            errorStackView,
             subviews: forgotUserNameButton, forgotPasswordButton
         )
         
@@ -165,10 +117,50 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private func setupSubviewsFor(stackView: UIStackView, subviews: UIView...) {
+    private func setupSubviewsFor(_ stackView: UIStackView, subviews: UIView...) {
         for subview in subviews {
             stackView.addArrangedSubview(subview)
         }
+    }
+    
+    private func createStackView(axis: NSLayoutConstraint.Axis,
+                                 distribution: UIStackView.Distribution,
+                                 spacing: CGFloat) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = axis
+        stackView.alignment = .fill
+        stackView.distribution = distribution
+        stackView.spacing = spacing
+        
+        return stackView
+    }
+    
+    private func createTextField(placeholder: String) -> UITextField {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.placeholder = placeholder
+        textField.borderStyle = .roundedRect
+        
+        return textField
+    }
+    
+    private func createButton(withTitle title: String,
+                              andFont font: UIFont,
+                              action: UIAction) -> UIButton {
+        var attributes = AttributeContainer()
+        attributes.font = font
+        
+        var buttonConfiguration = UIButton.Configuration.plain()
+        buttonConfiguration.attributedTitle = AttributedString(
+            title, attributes: attributes
+        )
+        
+        let button = UIButton(
+            configuration: buttonConfiguration,
+            primaryAction: action
+        )
+        
+        return button
     }
     
     private func logInButtonPressed() {

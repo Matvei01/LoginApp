@@ -16,7 +16,6 @@ class AboutMeViewController: UIViewController {
         attributes.font = .systemFont(ofSize: 20)
         
         var buttonConfiguration = UIButton.Configuration.plain()
-        buttonConfiguration.baseBackgroundColor = .systemBlue
         buttonConfiguration.attributedTitle = AttributedString("Photo", attributes: attributes)
         
         let button = UIButton(
@@ -24,8 +23,6 @@ class AboutMeViewController: UIViewController {
             primaryAction: UIAction { [unowned self] _ in
                 moreInfoPressed()
             })
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
     }()
@@ -38,11 +35,11 @@ class AboutMeViewController: UIViewController {
     private func configure() {
         view.backgroundColor = .white
         
+        setupNavigationController()
+        
         setupSubviews(moreInfoButton)
         
         setConstraints()
-        
-        setupNavigationController()
     }
     
     private func setupSubviews(_ subviews: UIView... ) {
@@ -52,7 +49,7 @@ class AboutMeViewController: UIViewController {
     }
     
     private func setupNavigationController() {
-        title = user?.person.fullName ?? "nihuya"
+        title = user?.person.fullName ?? ""
     }
     
     private func moreInfoPressed() {
@@ -62,6 +59,8 @@ class AboutMeViewController: UIViewController {
     }
     
     private func setConstraints() {
+        moreInfoButton.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate(
             [
                 moreInfoButton.centerYAnchor.constraint(

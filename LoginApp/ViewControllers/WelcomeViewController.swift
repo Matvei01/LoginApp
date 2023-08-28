@@ -29,7 +29,7 @@ class WelcomeViewController: UIViewController {
     // MARK: -  UI Elements
     private lazy var palmLabel: UILabel = {
         let label = UILabel()
-        label.text = user?.person.emoji ?? "nihuya"
+        label.text = user?.person.emoji ?? "❌"
         label.font = UIFont.systemFont(ofSize: 58)
         
         return label
@@ -41,7 +41,6 @@ class WelcomeViewController: UIViewController {
         attributes.foregroundColor = .white
         
         var buttonConfiguration = UIButton.Configuration.plain()
-        buttonConfiguration.baseBackgroundColor = .systemPink
         buttonConfiguration.attributedTitle = AttributedString("Log Out", attributes: attributes)
         
         let button = UIButton(
@@ -77,7 +76,7 @@ class WelcomeViewController: UIViewController {
     }
     
     private func setupNavigationController() {
-        title = "Welcome, \(user?.person.name ?? "")!"
+        title = "Welcome, \(user?.person.name ?? "Boby")!"
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -87,7 +86,6 @@ class WelcomeViewController: UIViewController {
         ]
         
         navigationController?.navigationBar.standardAppearance = navBarAppearance
-        
     }
     
     private func setupSubviews(_ subviews: UIView... ) {
