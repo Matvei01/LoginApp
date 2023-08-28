@@ -9,56 +9,234 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    // MARK: - IB Outlets
-    @IBOutlet weak var loginTF: UITextField!
-    @IBOutlet weak var passwordTF: UITextField!
+    // MARK: -  Private Properties
+    private let user = User.getUserData()
     
-    // MARK: - Private Properties
-    private let user = User.getUser()
-    
-    // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let tabBarController = segue.destination as? UITabBarController else { return }
-        guard let viewControllers = tabBarController.viewControllers else { return }
+    // MARK: -  UI Elements
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 20
         
-        for viewController in viewControllers {
-            if let welcomeVC = viewController as? WelcomeViewController {
-                welcomeVC.user = user
-            } else if let navigationVC = viewController as? UINavigationController {
-                guard let aboutMeVC = navigationVC.topViewController as? AboutMeViewController else { return }
-                aboutMeVC.user = user
-            }
+        return stackView
+    }()
+    
+    private lazy var authorizationStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 20
+        
+        return stackView
+    }()
+    
+    private lazy var errorStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 0
+        
+        return stackView
+    }()
+    
+    private lazy var userNameTF: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.placeholder = "User Name"
+        textField.borderStyle = .roundedRect
+        
+        return textField
+    }()
+    
+    private lazy var passwordTF: UITextField = {
+        let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.placeholder = "Password"
+        textField.borderStyle = .roundedRect
+        
+        return textField
+    }()
+    
+    private lazy var loginButton: UIButton = {
+        var attributes = AttributeContainer()
+        attributes.font = .systemFont(ofSize: 20)
+        
+        var buttonConfiguration = UIButton.Configuration.plain()
+        buttonConfiguration.baseBackgroundColor = .systemPink
+        buttonConfiguration.attributedTitle = AttributedString(
+            "Log In", attributes: attributes
+        )
+        
+        let button = UIButton(
+            configuration: buttonConfiguration,
+            primaryAction: UIAction { [unowned self] _ in
+                logInButtonPressed()
+            })
+        
+        return button
+    }()
+    
+    private lazy var forgotUserNameButton: UIButton = {
+        var attributes = AttributeContainer()
+        attributes.font = .systemFont(ofSize: 13)
+        
+        var buttonConfiguration = UIButton.Configuration.plain()
+        buttonConfiguration.baseBackgroundColor = .systemBlue
+        buttonConfiguration.attributedTitle = AttributedString(
+            "Forgot User Name?", attributes: attributes
+        )
+        
+        let button = UIButton(
+            configuration: buttonConfiguration,
+            primaryAction: UIAction { [unowned self] _ in
+                forgotUserNamePressed()
+            })
+        
+        
+        return button
+    }()
+    
+    private lazy var forgotPasswordButton: UIButton = {
+        var attributes = AttributeContainer()
+        attributes.font = .systemFont(ofSize: 13)
+        
+        var buttonConfiguration = UIButton.Configuration.plain()
+        buttonConfiguration.baseBackgroundColor = .systemBlue
+        buttonConfiguration.attributedTitle = AttributedString(
+            "Forgot Password?", attributes: attributes
+        )
+        
+        let button = UIButton(
+            configuration: buttonConfiguration,
+            primaryAction: UIAction { [unowned self] _ in
+                forgotPasswordPressed()
+            })
+        
+        
+        return button
+    }()
+    
+    // MARK: -  Life Cycle Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configure()
+    }
+    
+    // MARK: -  Private Methods
+    private func configure() {
+        view.backgroundColor = .white
+        
+        setupSubviews(
+            mainStackView,
+            authorizationStackView,
+            errorStackView,
+            userNameTF,
+            passwordTF,
+            loginButton,
+            forgotUserNameButton,
+            forgotPasswordButton
+        )
+        
+        setupSubviewsFor(
+            stackView: mainStackView,
+            subviews: authorizationStackView, loginButton, errorStackView
+        )
+        
+        setupSubviewsFor(
+            stackView: authorizationStackView,
+            subviews: userNameTF, passwordTF
+        )
+        
+        setupSubviewsFor(
+            stackView: errorStackView,
+            subviews: forgotUserNameButton, forgotPasswordButton
+        )
+        
+        setConstraints()
+    }
+    
+    private func setupSubviews(_ subviews: UIView... ) {
+        for subview in subviews {
+            view.addSubview(subview)
         }
     }
     
-    // MARK: - IBActions
-    @IBAction func loginTapped() {
-        if loginTF.text != user.login || passwordTF.text != user.password {
+    private func setupSubviewsFor(stackView: UIStackView, subviews: UIView...) {
+        for subview in subviews {
+            stackView.addArrangedSubview(subview)
+        }
+    }
+    
+    private func logInButtonPressed() {
+        if userNameTF.text != user.login || passwordTF.text != user.password {
             showAlert(
                 title: "Invalid login or password",
-                message: "Please, enter correct login and password"
+                message: "Please, enter correct login and password",
+                textField: passwordTF
             )
+            return
+            
+        } else {
+            let tabBarController = TabBarController()
+            let viewControllers = tabBarController.viewControllers
+            viewControllers?.forEach({ viewController in
+                if let navController = viewController as? UINavigationController {
+                    if let welcomeVC = navController.topViewController as? WelcomeViewController {
+                        welcomeVC.user = user
+                    } else if let aboutMeVC = navController.viewControllers.last as? AboutMeViewController {
+                        aboutMeVC.user = user
+                    }
+                }
+            })
+            
+            userNameTF.text = ""
+            passwordTF.text = ""
+            
+            tabBarController.modalPresentationStyle = .fullScreen
+            present(tabBarController, animated: true)
         }
     }
     
-    @IBAction func forgotRegisterData(_ sender: UIButton) {
-        sender.tag == 0
-        ? showAlert(title: "Oops!", message: "Your login is \(user.login) 😉")
-        : showAlert(title: "Oops!", message: "Your password is \(user.password) 😉")
+    private func forgotUserNamePressed() {
+        showAlert(title: "Oops!", message: "Your name is \(user.login) 😉")
     }
     
-    @IBAction func unwind(for segue: UIStoryboardSegue) {
-        loginTF.text = ""
-        passwordTF.text = ""
+    private func forgotPasswordPressed() {
+        showAlert(title: "Oops!", message: "Your password is \(user.password) 😉")
+    }
+    
+    // MARK: -  Constraints
+    private func setConstraints() {
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate(
+            [
+                mainStackView.centerYAnchor.constraint(
+                    equalTo: view.centerYAnchor
+                ),
+                mainStackView.leadingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                    constant: 40
+                ),
+                mainStackView.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                    constant: -40
+                )
+            ]
+        )
     }
 }
 
-// MARK: - Private Methods
+// MARK: - Alert Controller
 extension LoginViewController {
-    private func showAlert(title: String, message: String) {
+    private func showAlert(title: String, message: String, textField: UITextField? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-            self.passwordTF.text = ""
+            textField?.text = ""
         }
         
         alert.addAction(okAction)
@@ -74,11 +252,10 @@ extension LoginViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == loginTF {
+        if textField == userNameTF {
             passwordTF.becomeFirstResponder()
         } else {
-            loginTapped()
-            performSegue(withIdentifier: "showWelcomeVC", sender: nil)
+            logInButtonPressed()
         }
         
         return true

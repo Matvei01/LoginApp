@@ -10,15 +10,11 @@ struct User {
     let password: String
     let person: Person
     
-    static func getUser() -> User {
+    static func getUserData() -> User {
         User(
-            login: "user",
-            password: "ios",
-            person: Person(
-                name: "Matvei",
-                surname: "Khlestov",
-                image: "apple"
-            )
+            login: "User",
+            password: "Password",
+            person: Person.getPerson()
         )
     }
 }
@@ -27,9 +23,13 @@ struct Person {
     let name: String
     let surname: String
     let image: String
+    let emoji: String
     
     var fullName: String {
         "\(name) \(surname)"
     }
+    
+    static func getPerson() -> Person {
+        Person(name: "Matvei", surname: "Khlestov", image: "user_photo", emoji: "🖐️")
+    }
 }
-

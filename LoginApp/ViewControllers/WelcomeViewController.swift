@@ -9,10 +9,10 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
     
-    @IBOutlet weak var labelWelcome: UILabel!
+    // MARK: -  Public Properties
+    var user: User?
     
-    var user: User!
-    
+    // MARK: -  Private Properties
     private let primaryColor = UIColor(
         red: 210/255,
         green: 109/255,
@@ -25,10 +25,110 @@ class WelcomeViewController: UIViewController {
         blue: 230/255,
         alpha: 1
     )
+    
+    // MARK: -  UI Elements
+    private lazy var palmLabel: UILabel = {
+        let label = UILabel()
+        label.text = user?.person.emoji ?? "nihuya"
+        label.font = UIFont.systemFont(ofSize: 58)
+        
+        return label
+    }()
+    
+    private lazy var logoutButton: UIButton = {
+        var attributes = AttributeContainer()
+        attributes.font = .systemFont(ofSize: 20)
+        attributes.foregroundColor = .white
+        
+        var buttonConfiguration = UIButton.Configuration.plain()
+        buttonConfiguration.baseBackgroundColor = .systemPink
+        buttonConfiguration.attributedTitle = AttributedString("Log Out", attributes: attributes)
+        
+        let button = UIButton(
+            configuration: buttonConfiguration,
+            primaryAction: UIAction { [unowned self] _ in
+                logoutButtonPressed()
+            })
+        
+        return button
+    }()
+    
+    // MARK: -  Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addVerticalGradientLayer(topColor: primaryColor, bottomColor: secondaryColor)
-        labelWelcome.text = "Welcome, \(user.person.fullName)!"
+        configure()
+    }
+    
+    // MARK: -  Private Methods
+    private func configure() {
+        view.addVerticalGradientLayer(
+            topColor: primaryColor,
+            bottomColor: secondaryColor
+        )
+        
+        setupNavigationController()
+        
+        setupSubviews(
+            palmLabel,
+            logoutButton
+        )
+        
+        setConstraints()
+    }
+    
+    private func setupNavigationController() {
+        title = "Welcome, \(user?.person.name ?? "")!"
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor.white
+        ]
+        
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        
+    }
+    
+    private func setupSubviews(_ subviews: UIView... ) {
+        for subview in subviews {
+            view.addSubview(subview)
+        }
+    }
+    
+    private func logoutButtonPressed() {
+        dismiss(animated: true)
+    }
+    
+    // MARK: -  Constraints
+    private func setConstraints() {
+        
+        palmLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate(
+            [
+                palmLabel.centerXAnchor.constraint(
+                    equalTo: view.centerXAnchor
+                ),
+                palmLabel.topAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150
+                )
+            ]
+        )
+        
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate(
+            [
+                logoutButton.centerXAnchor.constraint(
+                    equalTo: view.centerXAnchor
+                ),
+                logoutButton.bottomAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                    constant: -150
+                )
+            ]
+        )
     }
 }
 
