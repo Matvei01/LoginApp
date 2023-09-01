@@ -10,7 +10,7 @@ import UIKit
 class WelcomeViewController: UIViewController {
     
     // MARK: -  Public Properties
-    var user: User?
+    var user: User!
     
     // MARK: -  Private Properties
     private let primaryColor = UIColor(
@@ -29,7 +29,7 @@ class WelcomeViewController: UIViewController {
     // MARK: -  UI Elements
     private lazy var palmLabel: UILabel = {
         let label = UILabel()
-        label.text = user?.person.emoji ?? "❌"
+        label.text = user.person.emoji
         label.font = UIFont.systemFont(ofSize: 58)
         
         return label
@@ -76,7 +76,7 @@ class WelcomeViewController: UIViewController {
     }
     
     private func setupNavigationController() {
-        title = "Welcome, \(user?.person.name ?? "Boby")!"
+        title = "Welcome, \(user.person.name)!"
         
         navigationController?.navigationBar.prefersLargeTitles = true
         

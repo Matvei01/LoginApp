@@ -9,11 +9,11 @@ import UIKit
 
 class ImageViewController: UIViewController {
     
-    var user: User?
+    var user: User!
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        imageView.image = UIImage(named: user?.person.image ?? "apple")
+        imageView.image = UIImage(named: user.person.image)
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = imageView.frame.width / 2
         

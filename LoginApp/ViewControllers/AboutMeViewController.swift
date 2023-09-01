@@ -9,7 +9,7 @@ import UIKit
 
 class AboutMeViewController: UIViewController {
     
-    var user: User?
+    var user: User!
     
     private lazy var moreInfoButton: UIButton = {
         var attributes = AttributeContainer()
@@ -49,7 +49,7 @@ class AboutMeViewController: UIViewController {
     }
     
     private func setupNavigationController() {
-        title = user?.person.fullName ?? ""
+        title = user.person.fullName
     }
     
     private func moreInfoPressed() {

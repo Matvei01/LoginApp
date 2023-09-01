@@ -29,7 +29,7 @@ class LoginViewController: UIViewController {
         )
     }()
     
-    private lazy var errorStackView: UIStackView = {
+    private lazy var forgotStackView: UIStackView = {
         createStackView(
             axis: .horizontal,
             distribution: .equalSpacing,
@@ -77,25 +77,22 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
-    
-    // MARK: -  Private Methods
+}
+
+// MARK: -  Private Methods
+extension LoginViewController {
     private func configure() {
         view.backgroundColor = .white
         
         setupSubviews(
             mainStackView,
             authorizationStackView,
-            errorStackView,
-            userNameTF,
-            passwordTF,
-            loginButton,
-            forgotUserNameButton,
-            forgotPasswordButton
+            forgotStackView
         )
         
         setupSubviewsFor(
             mainStackView,
-            subviews: authorizationStackView, loginButton, errorStackView
+            subviews: authorizationStackView, loginButton, forgotStackView
         )
         
         setupSubviewsFor(
@@ -104,7 +101,7 @@ class LoginViewController: UIViewController {
         )
         
         setupSubviewsFor(
-            errorStackView,
+            forgotStackView,
             subviews: forgotUserNameButton, forgotPasswordButton
         )
         
@@ -170,6 +167,7 @@ class LoginViewController: UIViewController {
                 message: "Please, enter correct login and password",
                 textField: passwordTF
             )
+            
             return
             
         } else {
