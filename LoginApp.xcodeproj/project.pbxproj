@@ -69,7 +69,7 @@
 				A0577EF92837F8B700624D30 /* ViewControllers */,
 				A0577EFD2837F9B900624D30 /* Models */,
 				A02EC4BA283B842E00B70626 /* Extensions */,
-				A0577EFA2837F8F300624D30 /* Storyboards */,
+				A0577EFA2837F8F300624D30 /* LaunchScreen */,
 				A0577EFC2837F96700624D30 /* App */,
 				A0577EFB2837F93900624D30 /* Resources */,
 			);
@@ -96,12 +96,12 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		A0577EFA2837F8F300624D30 /* Storyboards */ = {
+		A0577EFA2837F8F300624D30 /* LaunchScreen */ = {
 			isa = PBXGroup;
 			children = (
 				A0007C49282D54810023C350 /* LaunchScreen.storyboard */,
 			);
-			path = Storyboards;
+			path = LaunchScreen;
 			sourceTree = "<group>";
 		};
 		A0577EFB2837F93900624D30 /* Resources */ = {

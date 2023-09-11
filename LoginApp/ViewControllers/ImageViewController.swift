@@ -7,11 +7,13 @@
 
 import UIKit
 
-class ImageViewController: UIViewController {
+final class ImageViewController: UIViewController {
     
+    // MARK: -  Public Properties
     var user: User!
     
-    private lazy var imageView: UIImageView = {
+    // MARK: -  UI Elements
+    private lazy var userImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
         imageView.image = UIImage(named: user.person.image)
         imageView.clipsToBounds = true
@@ -20,27 +22,34 @@ class ImageViewController: UIViewController {
         return imageView
     }()
     
+    // MARK: -  Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
-    
+}
+
+// MARK: -  Private Methods
+extension ImageViewController {
     private func configure() {
         view.backgroundColor = .white
-        view.addSubview(imageView)
+        view.addSubview(userImageView)
         
         setConstraints()
     }
-    
+}
+
+// MARK: -  Constraints
+extension ImageViewController {
     private func setConstraints() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        userImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate(
             [
-                imageView.centerYAnchor.constraint(
+                userImageView.centerYAnchor.constraint(
                     equalTo: view.centerYAnchor
                 ),
-                imageView.centerXAnchor.constraint(
+                userImageView.centerXAnchor.constraint(
                     equalTo: view.centerXAnchor
                 )
             ]

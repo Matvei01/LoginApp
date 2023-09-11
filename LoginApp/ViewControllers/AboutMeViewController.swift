@@ -7,10 +7,12 @@
 
 import UIKit
 
-class AboutMeViewController: UIViewController {
+final class AboutMeViewController: UIViewController {
     
+    // MARK: -  Public Properties
     var user: User!
     
+    // MARK: -  UI Elements
     private lazy var moreInfoButton: UIButton = {
         var attributes = AttributeContainer()
         attributes.font = .systemFont(ofSize: 20)
@@ -27,11 +29,15 @@ class AboutMeViewController: UIViewController {
         return button
     }()
     
+    // MARK: -  Life Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
-    
+}
+
+// MARK: -  Private Methods
+extension AboutMeViewController {
     private func configure() {
         view.backgroundColor = .white
         
@@ -57,7 +63,10 @@ class AboutMeViewController: UIViewController {
         imageMeVC.user = user
         navigationController?.pushViewController(imageMeVC, animated: true)
     }
-    
+}
+
+// MARK: -  Constraints
+extension AboutMeViewController {
     private func setConstraints() {
         moreInfoButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -73,3 +82,4 @@ class AboutMeViewController: UIViewController {
         )
     }
 }
+

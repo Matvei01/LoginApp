@@ -7,7 +7,7 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+final class WelcomeViewController: UIViewController {
     
     // MARK: -  Public Properties
     var user: User!
@@ -57,8 +57,10 @@ class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
-    
-    // MARK: -  Private Methods
+}
+
+// MARK: -  Private Methods
+extension WelcomeViewController {
     private func configure() {
         view.addVerticalGradientLayer(
             topColor: primaryColor,
@@ -97,10 +99,11 @@ class WelcomeViewController: UIViewController {
     private func logoutButtonPressed() {
         dismiss(animated: true)
     }
-    
-    // MARK: -  Constraints
+}
+
+// MARK: -  Constraints
+extension WelcomeViewController {
     private func setConstraints() {
-        
         palmLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate(
@@ -129,4 +132,3 @@ class WelcomeViewController: UIViewController {
         )
     }
 }
-

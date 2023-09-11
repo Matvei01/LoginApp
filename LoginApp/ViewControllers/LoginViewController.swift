@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
     // MARK: -  Private Properties
     private let user = User.getUserData()
@@ -76,6 +76,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userNameTF.text = ""
+        passwordTF.text = ""
     }
 }
 
@@ -173,6 +179,7 @@ extension LoginViewController {
         } else {
             let tabBarController = TabBarController()
             let viewControllers = tabBarController.viewControllers
+            
             viewControllers?.forEach({ viewController in
                 if let navController = viewController as? UINavigationController {
                     if let welcomeVC = navController.topViewController as? WelcomeViewController {
@@ -182,9 +189,6 @@ extension LoginViewController {
                     }
                 }
             })
-            
-            userNameTF.text = ""
-            passwordTF.text = ""
             
             tabBarController.modalPresentationStyle = .fullScreen
             present(tabBarController, animated: true)
@@ -198,8 +202,10 @@ extension LoginViewController {
     private func forgotPasswordPressed() {
         showAlert(title: "Oops!", message: "Your password is \(user.password) 😉")
     }
-    
-    // MARK: -  Constraints
+}
+
+// MARK: -  Constraints
+extension LoginViewController {
     private func setConstraints() {
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         
